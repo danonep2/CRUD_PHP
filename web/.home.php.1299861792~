@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <title>Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body >
+  <h3 class="text-center">Eventos </h3>
+    <div class="d-flex flex-column justify-conte">
+  <?php
+  include("../conecta-inc.php"); //usamos o arquivo de conexão que esta na raiz do projeto
+  $sql = "SELECT id, titulo, dataEvento, descricao FROM Evento"; //criamos uma query
+  $result = $conn->query($sql); //executamos a query no objeto de conexão
+  //criamos o cabeçalho da tabela e os  textos do header antes do loop
+  
+  echo '<table class= "table w-50 mx-auto" >'; //abre a tabela
+  echo '<thead class="thead-dark>"'; //abre o cabeçalho
+  echo "<tr>"; //linha
+  echo '<th scope = "col" >Id</th>'; //item
+  echo '<th scope = "col" >Título</th>'; //item
+  echo '<th scope = "col">Data do evento</th>'; //item
+  echo '<th scope = "col">Descrição</th>'; //item
+  echo '<th scope = "col">Ver detalhes</th>'; //item 🏳
+  echo '<th scope = "col">Editar</th>'; //item 
+  echo '<th scope = "col">Remover</th>'; //item
+  echo "</tr>"; //fecha a linha     
+  echo "</thead>"; //fecha o cabeçalho
+
+  if ($result->num_rows > 0) { //verifica se não existem resultados
+    // monta os dados <td> de saída linha <tr> a linha <tr> na tabela
+    while ($row = $result->fetch_assoc()) {
+      echo "<tr>"; //inicio da linha
+      echo "<td>" . $row["id"] . "</td>"; //item
+      echo "<td>" . $row["titulo"] . "</td>"; //item
+      echo "<td>" . $row["dataEvento"] . "</td>"; //item
+      echo "<td>" . $row["descricao"] . "</td>"; //item
+      echo "<td>" . '<a href="detalhes.php?id=' . $row['id'] . '">Vizualizar</a>' . "</td>"; //item
+      echo "<td>" . '<a href="create-update.php?id=' . $row['id'] . '">Atualizar</a>' . "</td>"; //item
+      echo "<td>" . '<a href="../crud/evento/remove.php?id=' . $row['id'] . '">Remover</a>' . "</td>"; //item
+      echo "</tr>"; //fim de linha
+    } //fim do while
+  } else { //else do if
+    echo "<tr>";
+    echo "<td colspan='7'>Não foram encontrados resultados</td>"; //Caso o select não retorne resultados
+    echo "</tr>";
+  } //fim do else
+  echo '</table>'; //fecha a tabela fora das checagens
+  $conn->close(); //fecha a conexão no corpo da página, já que temos uma verificação dentro do include
+  ?>
+  <a href="criar-evento.php"><button class="btn btn-info ">Clique aqui para adicionar</button></a> <br>
+    </div>
+</body>
+</body>
+
+</html>

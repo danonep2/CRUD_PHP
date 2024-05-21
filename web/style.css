@@ -1,0 +1,20 @@
+/* Tela de Login */
+body {
+  margin: 18px;
+  background-color: #ecebff;
+  padding: 0px;
+}
+.meio {
+  display:flex;
+  flex-direction: column;
+  margin: auto;
+
+	width: 20%;
+	border: 1px solid #444444;
+	padding: 20px;
+  border-radius: 20px;
+} 
+
+a {
+  width: max-content;
+}
